@@ -14,7 +14,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-yarn do electron/build
+yarn do www/build
 
-export OUTLINE_DEBUG=true
-electron build/electron
+yarn browserify -e build/www/app/cordova_main.js -o build/www/cordova_main.js
+
+# TODO: babel polyfill
+# TODO: env json
+# TODO: transpile bower components
+# TODO: transpile ui components
+# TODO: rtl
+# TODO: xcode (for apple)

@@ -14,21 +14,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Build the web app.
-# TODO: move this to a separate target.
-tsc
-rsync -ac --exclude '*.ts' www electron build/
+# THINK:
+#  - build/electron/electron: main
+#  - build/electron/www: renderer
 
-# Copy the web app into the Electron folder.
-readonly OUTPUT=build/windows
-mkdir -p $OUTPUT
-rsync -ac build/{electron,www} $OUTPUT/
+# TODO: this gives us ES5...not necessary in electron, worth considering something else?
+yarn do www/build
+
+# populate build/electron
+tsc -p electron
+rsync -ac --exclude '*.ts' electron build/
+
+# ugh, copy build/www into build/electron/www
+rsync -ac build/www build/electron/
 
 # Copy binaries into the Electron folder.
 # The destination folder must be kept in sync with:
 #  - the value specified for --config.asarUnpack in package_action.sh
 #  - the value returned by process_manager.ts#pathToEmbeddedExe
-readonly BIN_DEST=$OUTPUT/electron/bin/win32
+readonly BIN_DEST=build/electron/bin/win32
 mkdir -p $BIN_DEST
 rsync -ac \
   --include '*.exe' --include '*.dll' \
@@ -39,16 +43,16 @@ rsync -ac \
 
 # Version info and Sentry config.
 # In Electron, the path is relative to electron_index.html.
-scripts/environment_json.sh -p windows > $OUTPUT/www/environment.json
+scripts/environment_json.sh -p windows > build/electron/www/environment.json
 
-# Generate CSS rules to mirror the UI in RTL languages.
-node -e "require('./scripts/generate_rtl_css.js')('www/ui_components/*.html', '$OUTPUT/www/ui_components')"
+# # Generate CSS rules to mirror the UI in RTL languages.
+# node -e "require('./scripts/generate_rtl_css.js')('www/ui_components/*.html', '$OUTPUT/www/ui_components')"
 
 # We need a top-level index.js.
 # Its only job is to load electron/index.js.
-cat << EOM > $OUTPUT/index.js
+cat << EOM > build/electron/index.js
 require('./electron');
 EOM
 
-# Icons.
-electron-icon-maker --input=electron/logo.png --output=build/windows
+# # Icons.
+# electron-icon-maker --input=electron/logo.png --output=build/windows

@@ -14,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-yarn do electron/build
-
-export OUTLINE_DEBUG=true
-electron build/electron
+# populate build/www
+tsc -p www
+rsync -ac --exclude '*.ts' www build/
