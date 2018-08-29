@@ -14,13 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Additional build steps for www/, to support the older browsers that
-# may be found on Cordova platforms.
+yarn do www/cordova
 
-yarn do www/build
+# fails if directory already exists!
+test -d platforms/android || yarn cordova platform add android
+yarn cordova prepare android
 
-# ugh so hard to get cordova to look at build only
-yarn browserify -e build/www/app/cordova_main.js -o www/cordova_main.js
-
-# TODO: transpile bower components
-# TODO: transpile ui components
+# TODO: ugh, must be a way to push this into www/cordova?
+cp -v node_modules/babel-polyfill/dist/polyfill.min.js platforms/android/app/src/main/assets/www/babel-polyfill.min.js

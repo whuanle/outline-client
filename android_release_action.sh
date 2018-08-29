@@ -14,9 +14,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-yarn do www/cordova
-
-# fails if directory already exists!
-test -d platforms/android || yarn cordova platform add android
-yarn cordova prepare android
-cordova compile android -- --gradleArg=-PcdvBuildMultipleApks=true
+yarn do android_common
+cordova compile android --release -- --keystore=$KEYSTORE --storePassword=$STOREPASS --alias=$KEYALIAS --password=$KEYPASS --gradleArg=-PcdvBuildMultipleApks=true

@@ -14,6 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# populate build/www
+# Builds the TypeScript app under www, placing it at build/www.
+
 tsc -p www
 rsync -ac --exclude '*.ts' www build/
+
+# TODO: env json
+# TODO: RTL
