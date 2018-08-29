@@ -53,3 +53,5 @@ ENV ANDROID_HOME /opt/android-sdk
 #   sdkmanager --list|grep build-tools
 ENV ANDROID_BUILD_TOOLS_VERSION 28.0.1
 RUN yes | sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSION}"
+
+RUN apt install -y rsync
