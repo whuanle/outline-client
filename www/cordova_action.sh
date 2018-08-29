@@ -16,7 +16,8 @@
 
 yarn do www/build
 
-yarn browserify -e build/www/app/cordova_main.js -o build/www/cordova_main.js
+# ugh so hard to get cordova to look at build only
+yarn browserify -e build/www/app/cordova_main.js -o www/cordova_main.js
 
 # TODO: babel polyfill
 # TODO: env json
