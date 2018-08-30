@@ -14,13 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Additional build steps for www/, to support the older browsers that
-# may be found on Cordova platforms.
+yarn do src/electron/build
 
-yarn do www/build
-
-# ugh so hard to get cordova to look at build only
-yarn browserify -e build/www/app/cordova_main.js -o www/cordova_main.js
-
-# TODO: transpile bower components
-# TODO: transpile ui components
+export OUTLINE_DEBUG=true
+electron build/electron

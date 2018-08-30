@@ -8,7 +8,7 @@
     "strictNullChecks": true,
     "module": "commonjs",
     "moduleResolution": "node",
-    "outDir": "../build/electron",
+    "outDir": "../../www",
     "lib": [
       "dom",
       "es5",
@@ -21,7 +21,6 @@
     ]
   },
   "include": [
-    "**/*.ts",
-    "../www/types/**/*.d.ts",
+    "**/*.ts"
   ]
 }

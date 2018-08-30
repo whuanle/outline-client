@@ -18,15 +18,15 @@
 #  - build/electron/electron: main
 #  - build/electron/www: renderer
 
-# TODO: this gives us ES5...not necessary in electron, worth considering something else?
-yarn do www/build
+# TODO: consider another build target that produces, e.g. ES6
+yarn do src/www/build
 
 # populate build/electron
-tsc -p electron
-rsync -ac --exclude '*.ts' electron build/
+tsc -p src/electron
+rsync -ac --exclude '*.ts' src/electron build/
 
-# ugh, copy build/www into build/electron/www
-rsync -ac build/www build/electron/
+# ugh, copy www into build/electron/
+rsync -ac www build/electron/
 
 # Copy binaries into the Electron folder.
 # The destination folder must be kept in sync with:
@@ -54,5 +54,5 @@ cat << EOM > build/electron/index.js
 require('./electron');
 EOM
 
-# # Icons.
-# electron-icon-maker --input=electron/logo.png --output=build/windows
+# # # Icons.
+# # electron-icon-maker --input=electron/logo.png --output=build/windows

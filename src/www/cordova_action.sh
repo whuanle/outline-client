@@ -14,10 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Builds the TypeScript app under www, placing it at build/www.
+# Additional build steps for www/, to support the older browsers that
+# may be found on Cordova platforms.
 
-tsc -p www
-rsync -ac --exclude '*.ts' www build/
+yarn do src/www/build
 
-# TODO: env json
-# TODO: RTL
+yarn browserify -e www/app/cordova_main.js -o www/cordova_main.js
+
+cp -v node_modules/babel-polyfill/dist/polyfill.min.js www/babel-polyfill.min.js
+
+# TODO: transpile bower components
+# TODO: transpile ui components

@@ -14,11 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-yarn do www/cordova
+yarn do src/www/cordova
 
 # fails if directory already exists!
 test -d platforms/android || yarn cordova platform add android
 yarn cordova prepare android
-
-# TODO: ugh, must be a way to push this into www/cordova?
-cp -v node_modules/babel-polyfill/dist/polyfill.min.js platforms/android/app/src/main/assets/www/babel-polyfill.min.js
