@@ -15,4 +15,7 @@
 # limitations under the License.
 
 yarn do android_common
+
+scripts/environment_json.sh -p android > www/environment.json
+
 cordova compile android -- --gradleArg=-PcdvBuildMultipleApks=true

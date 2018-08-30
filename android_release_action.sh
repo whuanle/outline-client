@@ -15,4 +15,7 @@
 # limitations under the License.
 
 yarn do android_common
+
+scripts/environment_json.sh -p android -r > www/environment.json
+
 cordova compile android --release -- --keystore=$KEYSTORE --storePassword=$STOREPASS --alias=$KEYALIAS --password=$KEYPASS --gradleArg=-PcdvBuildMultipleApks=true

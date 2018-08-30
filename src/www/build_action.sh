@@ -19,5 +19,6 @@
 tsc -p src/www
 rsync -ac --exclude '*.ts' src/www/ www/
 
-# TODO: env json
-# TODO: RTL
+# TODO: ARGH uses loads of gulp stuff
+# Generate CSS rules to mirror the UI in RTL languages.
+# node -e "require('./scripts/generate_rtl_css.js')('src/www/ui_components/*.html', 'www/ui_components')"

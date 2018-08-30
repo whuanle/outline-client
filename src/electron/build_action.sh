@@ -45,9 +45,6 @@ rsync -ac \
 # In Electron, the path is relative to electron_index.html.
 scripts/environment_json.sh -p windows > build/electron/www/environment.json
 
-# # Generate CSS rules to mirror the UI in RTL languages.
-# node -e "require('./scripts/generate_rtl_css.js')('www/ui_components/*.html', '$OUTPUT/www/ui_components')"
-
 # We need a top-level index.js.
 # Its only job is to load electron/index.js.
 cat << EOM > build/electron/index.js
