@@ -138,12 +138,12 @@ function createTrayIcon(status: ConnectionStatus) {
     tray.setToolTip('Outline');
   }
   // Retrieve localized strings, falling back to the pre-populated English default.
-  const statusString = isConnected ? localizedStrings['connected-server-state']
-                                   : localizedStrings['disconnected-server-state'];
-  const quitString =  localizedStrings['quit'];
+  const statusString = isConnected ? localizedStrings['connected-server-state'] :
+                                     localizedStrings['disconnected-server-state'];
+  const quitString = localizedStrings['quit'];
   const menuTemplate = [
-    {label: statusString, enabled: false},
-    {type: 'separator'} as MenuItemConstructorOptions, {label: quitString, click: quitApp}
+    {label: statusString, enabled: false}, {type: 'separator'} as MenuItemConstructorOptions,
+    {label: quitString, click: quitApp}
   ];
   tray.setContextMenu(Menu.buildFromTemplate(menuTemplate));
 }
