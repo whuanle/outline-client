@@ -35,11 +35,16 @@ rsync -ac www build/electron/
 readonly BIN_DEST=build/electron/bin/win32
 mkdir -p $BIN_DEST
 rsync -ac \
+  third_party/shadowsocks-libev/windows/ third_party/badvpn/windows/ \
+  $BIN_DEST
+
+# Copy files for OutlineService.
+cp electron/install_windows_service.bat $OUTPUT
+rsync -ac \
   --include '*.exe' --include '*.dll' \
   --exclude='*' \
-  third_party/shadowsocks-libev/windows/ third_party/badvpn/windows/ \
   third_party/newtonsoft/ tools/OutlineService/OutlineService/bin/ \
-  $BIN_DEST
+  $OUTPUT
 
 # Version info and Sentry config.
 # In Electron, the path is relative to electron_index.html.
