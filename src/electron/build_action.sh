@@ -39,12 +39,12 @@ rsync -ac \
   $BIN_DEST
 
 # Copy files for OutlineService.
-cp electron/install_windows_service.bat $OUTPUT
+cp src/electron/install_windows_service.bat build/electron/
 rsync -ac \
   --include '*.exe' --include '*.dll' \
   --exclude='*' \
   third_party/newtonsoft/ tools/OutlineService/OutlineService/bin/ \
-  $OUTPUT
+  build/electron/
 
 # Version info and Sentry config.
 # In Electron, the path is relative to electron_index.html.
@@ -56,5 +56,10 @@ cat << EOM > build/electron/index.js
 require('./electron');
 EOM
 
-# # # Icons.
-# # electron-icon-maker --input=electron/logo.png --output=build/windows
+# Not strictly necessary when running from the command line but this sets fields
+# such as productName which influences things like the appData directory, easing
+# debugging.
+cp package.json build/electron/
+
+# Icons.
+electron-icon-maker --input=electron/logo.png --output=build/windows
