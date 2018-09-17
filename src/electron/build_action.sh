@@ -62,4 +62,4 @@ EOM
 cp package.json build/electron/
 
 # Icons.
-electron-icon-maker --input=electron/logo.png --output=build/windows
+electron-icon-maker --input=src/electron/logo.png --output=build/electron
