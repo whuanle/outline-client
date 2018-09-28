@@ -103,7 +103,7 @@ function createWindow(connectionAtShutdown?: SerializableConnection) {
         mainWindow.webContents.send(`proxy-reconnecting-${serverId}`);
       }
       // TODO: Handle errors, report.
-      startVpn(connectionAtShutdown.config, serverId);
+      startVpn(connectionAtShutdown.config, serverId, true);
     }
   });
 
@@ -182,9 +182,13 @@ app.setAsDefaultProtocolClient('ss');
 
 function interceptShadowsocksLink(argv: string[]) {
   if (argv.length > 1) {
-    const url = argv[1];
-    if (url.startsWith('ss://')) {
+    const protocol = 'ss://';
+    let url = argv[1];
+    if (url.startsWith(protocol)) {
       if (mainWindow) {
+        // The system adds a trailing slash to the intercepted URL (before the fragment).
+        // Remove it before sending to the UI.
+        url = `${protocol}${url.substr(protocol.length).replace(/\//g, '')}`;
         mainWindow.webContents.send('add-server', url);
       } else {
         console.error('called with URL but mainWindow not open');
@@ -257,7 +261,7 @@ promiseIpc.on('is-reachable', (config: cordova.plugins.outline.ServerConfig) => 
       });
 });
 
-function startVpn(config: cordova.plugins.outline.ServerConfig, id: string) {
+function startVpn(config: cordova.plugins.outline.ServerConfig, id: string, isAutoConnect = false) {
   return process_manager.teardownVpn()
       .catch((e) => {
         console.error(`error tearing down the VPN`, e);
@@ -276,9 +280,10 @@ function startVpn(config: cordova.plugins.outline.ServerConfig, id: string) {
                     console.error('Failed to clear connection store.');
                   });
                   createTrayIcon(ConnectionStatus.DISCONNECTED);
-                })
-            .then(() => {
-              connectionStore.save({config, id}).catch((err) => {
+                },
+                isAutoConnect)
+            .then((newConfig) => {
+              connectionStore.save({config: newConfig, id}).catch((err) => {
                 console.error('Failed to store connection.');
               });
               if (mainWindow) {
