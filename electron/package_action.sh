@@ -43,6 +43,8 @@ electron-builder \
   --publish=never \
   --win nsis \
   --config.win.icon=icons/win/icon.ico \
+  --config.nsis.oneClick=false \
   --config.nsis.perMachine=true \
+  --config.nsis.allowToChangeInstallationDirectory=true \
   --config.nsis.include=electron/custom_install_steps.nsh \
   --config.nsis.artifactName='Outline-Client.${ext}'
