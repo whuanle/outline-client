@@ -39,23 +39,12 @@ rsync -ac www/ build/electron/renderer
 #   third_party/newtonsoft/ tools/OutlineService/OutlineService/bin/ \
 #   $OUTPUT
 
-# # Version info and Sentry config.
-# # In Electron, the path is relative to electron_index.html.
-# scripts/environment_json.sh -p windows > $OUTPUT/www/environment.json
+# Version info and Sentry config.
+# In Electron, the path is relative to electron_index.html.
+scripts/environment_json.sh -p windows > build/electron/renderer/environment.json
 
 # # Generate CSS rules to mirror the UI in RTL languages.
 # node -e "require('./scripts/generate_rtl_css.js')('www/ui_components/*.html', '$OUTPUT/www/ui_components')"
-
-# We need a top-level index.js.
-# Its only job is to load electron/index.js.
-cat << EOM > build/electron/index.js
-require('./main/electron');
-EOM
-
-# # Not strictly necessary when running from the command line but this sets fields
-# # such as productName which influences things like the appData directory, easing
-# # debugging.
-# cp package.json $OUTPUT
 
 # # Icons.
 # electron-icon-maker --input=src/electron/logo.png --output=build/windows

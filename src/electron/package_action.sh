@@ -17,16 +17,16 @@
 yarn do src/electron/build
 
 # Environment variables.
-scripts/environment_json.sh -p windows > build/windows/www/environment.json
-# TODO: Share code with environment_json.sh (this is the dev/debug Sentry DSN).
-mkdir -p build/windows/build
-cat > build/windows/build/env.nsh << EOF
-!define RELEASE "$(node -r fs -p 'JSON.parse(fs.readFileSync("package.json")).version;')"
-!define SENTRY_DSN "https://sentry.io/api/159503/store/?sentry_version=7&sentry_key=319145c481df41458bb6e84c1a99c9ff"
-EOF
+scripts/environment_json.sh -p windows > build/electron/renderer/environment.json
+# # TODO: Share code with environment_json.sh (this is the dev/debug Sentry DSN).
+# mkdir -p build/windows/build
+# cat > build/windows/build/env.nsh << EOF
+# !define RELEASE "$(node -r fs -p 'JSON.parse(fs.readFileSync("package.json")).version;')"
+# !define SENTRY_DSN "https://sentry.io/api/159503/store/?sentry_version=7&sentry_key=319145c481df41458bb6e84c1a99c9ff"
+# EOF
 
-# Copy tap-windows6.
-cp -R third_party/tap-windows6/bin build/windows/tap-windows6
+# # Copy tap-windows6.
+# cp -R third_party/tap-windows6/bin build/windows/tap-windows6
 
 # --config.asarUnpack must be kept in sync with:
 #  - the destination path for the binaries in build_action.sh
@@ -37,12 +37,5 @@ cp -R third_party/tap-windows6/bin build/windows/tap-windows6
 # to install and configure the TAP device.
 
 electron-builder \
-  --projectDir=build/windows \
-  --config.asarUnpack=electron/bin \
-  --ia32 \
   --publish=never \
-  --win nsis \
-  --config.win.icon=icons/win/icon.ico \
-  --config.nsis.perMachine=true \
-  --config.nsis.include=electron/custom_install_steps.nsh \
-  --config.nsis.artifactName='Outline-Client.${ext}'
+  --linux
