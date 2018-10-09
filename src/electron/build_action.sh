@@ -21,24 +21,6 @@ tsc -p src/electron
 yarn do src/www/build
 rsync -ac www/ build/electron/renderer
 
-# # Copy binaries into the Electron folder.
-# # The destination folder must be kept in sync with:
-# #  - the value specified for --config.asarUnpack in package_action.sh
-# #  - the value returned by process_manager.ts#pathToEmbeddedExe
-# readonly BIN_DEST=$OUTPUT/electron/bin/win32
-# mkdir -p $BIN_DEST
-# rsync -ac \
-#   third_party/shadowsocks-libev/windows/ third_party/badvpn/windows/ \
-#   $BIN_DEST
-
-# # Copy files for OutlineService.
-# cp src/electron/install_windows_service.bat $OUTPUT
-# rsync -ac \
-#   --include '*.exe' --include '*.dll' \
-#   --exclude='*' \
-#   third_party/newtonsoft/ tools/OutlineService/OutlineService/bin/ \
-#   $OUTPUT
-
 # Version info and Sentry config.
 # In Electron, the path is relative to electron_index.html.
 scripts/environment_json.sh -p windows > build/electron/renderer/environment.json
